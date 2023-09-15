@@ -20,33 +20,33 @@ class User(Base):
 class Operacao(Base):
     __tablename__ = "opr_operacao"
 
-    id = Column(Integer, primary_key=True, index=True)
-    inicio_plantio = Column(Date, index=True)
-    fim_plantio = Column(Date, index=True)
-    inicio_colheita = Column(Date, index=True)
-    fim_colheita = Column(Date, index=True)
-    estado = Column(String, index=True)
-    municipio = Column(String, index=True)
+    id = Column("opr_id", Integer, primary_key=True, index=True)
+    inicio_plantio = Column("opr_inicio_plantio", Date, index=True)
+    fim_plantio = Column("opr_fim_plantio", Date, index=True)
+    inicio_colheita = Column("opr_inicio_colheita", Date, index=True)
+    fim_colheita = Column("opr_fim_colheita", Date, index=True)
+    estado = Column("opr_estado", String, index=True)
+    municipio = Column("opr_municipio", String, index=True)
 
-    solo_id = Column(Integer, ForeignKey("sol_solo.id"))
+    solo_id = Column("opr_sol", Integer, ForeignKey("sol_solo.sol_id"))
     solo = relationship("Solo", back_populates="operacao")
 
-    irrigacao_id = Column(Integer, ForeignKey("irg_irrigacao.id"))
+    irrigacao_id = Column("opr_irg", Integer, ForeignKey("irg_irrigacao.irg_id"))
     irrigacao = relationship("Irrigacao", back_populates="operacao")
 
-    cultivo_id = Column(Integer, ForeignKey("clt_cultivo.id"))
+    cultivo_id = Column("opr_clt", Integer, ForeignKey("clt_cultivo.clt_id"))
     cultivo = relationship("Cultivo", back_populates="operacao")
 
-    grao_semente_id = Column(Integer, ForeignKey("gsm_grao_semente.id"))
+    grao_semente_id = Column("opr_gsm", Integer, ForeignKey("gsm_grao_semente.gsm_id"))
     grao_semente = relationship("GraoSemente", back_populates="operacao")
 
-    ciclo_id = Column(Integer, ForeignKey("ccl_ciclo.id"))
+    ciclo_id = Column("opr_ccl", Integer, ForeignKey("ccl_ciclo.ccl_id"))
     ciclo = relationship("Ciclo", back_populates="operacao")
 
-    gleba_id = Column(Integer, ForeignKey("opr_gleba.id"))
+    gleba_id = Column("opr_glb", Integer, ForeignKey("glb_gleba.glb_id"))
     gleba = relationship("Gleba", back_populates="operacao")
 
-    empreendimento_id = Column(Integer, ForeignKey("emp_empreendimento.id"))
+    empreendimento_id = Column("opr_emp", Integer, ForeignKey("emp_empreendimento.emp_id"))
     empreendimento = relationship("Empreendimento", back_populates="operacao")
 
     propriedade = relationship("Propriedade", back_populates="operacao")
@@ -55,16 +55,16 @@ class Operacao(Base):
 class Solo(Base):
     __tablename__ = "sol_solo"
 
-    id = Column(Integer, primary_key=True, index=True)
-    descricao = Column(String, index=True)
+    id = Column("sol_id", Integer, primary_key=True, index=True)
+    descricao = Column("sol_descricao", String, index=True)
 
     operacao = relationship("Operacao", back_populates="solo")
 
 class Irrigacao(Base):
     __tablename__ = "irg_irrigacao"
 
-    id = Column(Integer, primary_key=True, index=True)
-    descricao = Column(String, index=True)
+    id = Column("irg_id", Integer, primary_key=True, index=True)
+    descricao = Column("irg_descricao", String, index=True)
 
     operacao = relationship("Operacao", back_populates="irrigacao")
 
@@ -72,8 +72,8 @@ class Irrigacao(Base):
 class Cultivo(Base):
     __tablename__ = "clt_cultivo"
 
-    id = Column(Integer, primary_key=True, index=True)
-    descricao = Column(String, index=True)
+    id = Column("clt_id", Integer, primary_key=True, index=True)
+    descricao = Column("clt_descricao", String, index=True)
 
     operacao = relationship("Operacao", back_populates="cultivo")
 
@@ -81,8 +81,8 @@ class Cultivo(Base):
 class GraoSemente(Base):
     __tablename__ = "gsm_grao_semente"
 
-    id = Column(Integer, primary_key=True, index=True)
-    descricao = Column(String, index=True)
+    id = Column("gsm_id", Integer, primary_key=True, index=True)
+    descricao = Column("gsm_descricao", String, index=True)
 
     operacao = relationship("Operacao", back_populates="grao_semente")
 
@@ -90,17 +90,17 @@ class GraoSemente(Base):
 class Ciclo(Base):
     __tablename__ = "ccl_ciclo"
 
-    id = Column(Integer, primary_key=True, index=True)
-    descricao = Column(String, index=True)
+    id = Column("ccl_id", Integer, primary_key=True, index=True)
+    descricao = Column("ccl_descricao", String, index=True)
 
     operacao = relationship("Operacao", back_populates="ciclo")
 
 
 class Gleba(Base):
-    __tablename__ = "opr_gleba"
+    __tablename__ = "glb_gleba"
 
-    id = Column(Integer, primary_key=True, index=True)
-    poligono = Column(Geography('POLYGON'), nullable=False)
+    id = Column("glb_id", Integer, primary_key=True, index=True)
+    poligono = Column("glb_poligono", Geography('POLYGON'), nullable=False)
 
     operacao = relationship("Operacao", back_populates="gleba")
 
@@ -108,24 +108,24 @@ class Gleba(Base):
 class Empreendimento(Base):
     __tablename__ = "emp_empreendimento"
 
-    id = Column(Integer, primary_key=True, index=True)
-    finalidade = Column(String, index=True)
-    atividade = Column(String, index=True)
-    modalidade = Column(String, index=True)
-    produto = Column(String, index=True)
-    variedade = Column(String, index=True)
-    cesta = Column(String, index=True)
-    zoneamento = Column(String, index=True)
+    id = Column("emp_id", Integer, primary_key=True, index=True)
+    finalidade = Column("emp_finalidade", String, index=True)
+    atividade = Column("emp_atividade", String, index=True)
+    modalidade = Column("emp_modalidade", String, index=True)
+    produto = Column("emp_produto", String, index=True)
+    variedade = Column("emp_variedade", String, index=True)
+    cesta = Column("emp_cesta", String, index=True)
+    zoneamento = Column("emp_zoneamento", String, index=True)
 
     operacao = relationship("Operacao", back_populates="empreendimento")
 
 class Propriedade(Base):
     __tablename__ = "ppr_propriedade"
 
-    id = Column(Integer, primary_key=True, index=True)
-    sncr = Column(String, index=True)
-    nirf = Column(String, index=True)
-    car = Column(String, index=True)
+    id = Column("ppr_id", Integer, primary_key=True, index=True)
+    sncr = Column("ppr_sncr", String, index=True)
+    nirf = Column("ppr_nirf", String, index=True)
+    car = Column("ppr_car", String, index=True)
 
-    operacao_id = Column(Integer, ForeignKey("opr_operacao.id"))
+    operacao_id = Column("ppr_opr", Integer, ForeignKey("opr_operacao.opr_id"))
     operacao = relationship("Operacao", back_populates="propriedade")
